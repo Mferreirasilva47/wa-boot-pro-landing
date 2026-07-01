@@ -549,7 +549,10 @@
     const a     = document.createElement('a');
     a.href      = URL.createObjectURL(blob);
     a.download  = 'wa-boot-pro.zip';
+    a.style.display = 'none';
+    document.body.appendChild(a);
     a.click();
+    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(a.href); }, 1000);
     showToast('✓ Download iniciado!');
 
     // Scroll suave para o guia
