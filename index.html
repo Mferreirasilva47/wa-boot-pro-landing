@@ -541,22 +541,18 @@
 
   function downloadExtension() {
     if (!ZIP_B64 || ZIP_B64.length < 100) {
-      showToast('⚠️ Execute gerar_zip.py para embutir o ZIP nesta página', 'error');
+      showToast('⚠️ ZIP não embutido. Execute gerar_zip.py.', 'error');
       return;
     }
-    const bytes = Uint8Array.from(atob(ZIP_B64), c => c.charCodeAt(0));
-    const blob  = new Blob([bytes], { type: 'application/zip' });
-    const a     = document.createElement('a');
-    a.href      = URL.createObjectURL(blob);
-    a.download  = 'wa-boot-pro.zip';
+    const a = document.createElement('a');
+    a.href = 'data:application/zip;base64,' + ZIP_B64;
+    a.download = 'wa-boot-pro.zip';
     a.style.display = 'none';
     document.body.appendChild(a);
     a.click();
-    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(a.href); }, 1000);
-    showToast('✓ Download iniciado!');
-
-    // Scroll suave para o guia
-    setTimeout(() => document.getElementById('guia').scrollIntoView({ behavior: 'smooth' }), 600);
+    document.body.removeChild(a);
+    showToast('✓ Download iniciado! Verifique sua pasta de downloads.');
+    setTimeout(() => document.getElementById('guia').scrollIntoView({ behavior: 'smooth' }), 800);
   }
 
   function copyUrl() {
